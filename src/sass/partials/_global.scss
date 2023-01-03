@@ -1,0 +1,26 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: $color-background;
+  font-family: $font-main;
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: $font-regular;
+  color: $color-text;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.main-image {
+  background-image: url('/images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 500px;
+}
