@@ -24,11 +24,11 @@ class Grid {
   prepareGridDivs() {
     const thisGrid = this;
 
-    for (let x = gridParams.firstRow ; x <= gridParams.lastRow ; x++) {
+    for (let y = gridParams.firstRow ; y <= gridParams.lastRow ; y++) {
       const div = document.createElement('div');
       div.classList.add(classNames.gridRow);
       
-      for(let y = gridParams.firstColumn ; y <= gridParams.lastColumn ; y++) {
+      for(let x = gridParams.firstColumn ; x <= gridParams.lastColumn ; x++) {
         const yDiv = document.createElement('div');
         div.append(yDiv);
         yDiv.classList.add(classNames.gridColumn);
@@ -70,31 +70,35 @@ class Grid {
       let clickedCellDom;
       let cellIsAllowed;
 
-      console.log(thisGrid.markedCells.length);
+      thisGrid.checkFourCellsAround(clickedCell);
 
       if (clickedCell == null) {
         cellIsAllowed = false;
         console.log('null');
       }
       else {
-        const rowOfClickedCell = parseInt(clickedCell.charAt(0));
-        const columnOfClickedCell = parseInt(clickedCell.charAt(2));
+        const clickedCellToInt = thisGrid.coordinatesStrToInt(clickedCell);
+
+        const rowOfClickedCell = clickedCellToInt.returnX;
+        const columnOfClickedCell = clickedCellToInt.returnY;
         
         clickedCellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + clickedCell + '"]');
 
         if (thisGrid.finderMode === 1){
           for (let cell of thisGrid.markedCells) {
             if (clickedCell === cell) {
-              //const rowOfCell = parseInt(cell.charAt(0));
-              //const columnOfCell = parseInt(cell.charAt(2));
+
               const indexOfCell = thisGrid.markedCells.indexOf(cell);
               let amountMarkedNextCells = 0;
               cellIsAllowed = false;
 
               if (thisGrid.markedCells.length > 1) {
                 for (let markedCell of thisGrid.markedCells){
-                  const rowOfMarkedCell = parseInt(markedCell.charAt(0));
-                  const columnOfMarkedCell = parseInt(markedCell.charAt(2));
+
+                  const markedCellToInt = thisGrid.coordinatesStrToInt(markedCell);
+                  const rowOfMarkedCell = markedCellToInt.returnX;
+                  const columnOfMarkedCell = markedCellToInt.returnY;
+                  
                   console.log('rOC, rOMC:', rowOfClickedCell, rowOfMarkedCell, columnOfClickedCell, columnOfMarkedCell);
                   if ((rowOfClickedCell == rowOfMarkedCell - 1) && (columnOfClickedCell == columnOfMarkedCell)) {
                     amountMarkedNextCells++;
@@ -121,8 +125,9 @@ class Grid {
           if (cellIsAllowed !== false){
             for (let cell of thisGrid.markedCells) {
 
-              const rowOfCell = parseInt(cell.charAt(0));
-              const columnOfCell = parseInt(cell.charAt(2));
+              const cellToInt = thisGrid.coordinatesStrToInt(cell);
+              const rowOfCell = cellToInt.returnX;
+              const columnOfCell = cellToInt.returnY;
 
               if (((rowOfCell == rowOfClickedCell - 1) && (columnOfCell == columnOfClickedCell)) ||
               ((rowOfCell == rowOfClickedCell + 1) && (columnOfCell == columnOfClickedCell)) ||
@@ -148,11 +153,118 @@ class Grid {
             clickedCellDom.classList.replace(classNames.markedCell, classNames.lastCell);
           }
         }
-        /*else if (thisGrid.finderMode == 3){
+        else if (thisGrid.finderMode == 3){
+          const possibleWays = [[]];
+          possibleWays[0].push(thisGrid.firstCell);
 
-        }*/
+          let currentWayNumber = 0;
+
+          let cellsAround = thisGrid.checkFourCellsAround(thisGrid.firstCell);
+
+          while (currentWayNumber < possibleWays.length){
+            let notVerifiedCells = [];
+            let currentWay = possibleWays[currentWayNumber];
+            const copyOfCurrentWay = [...currentWay];
+            let loopNumber = 0;
+
+            for (let cellAround of cellsAround){
+              loopNumber++;
+
+              if (loopNumber == 1){
+                notVerifiedCells = thisGrid.findWay(cellAround, currentWay[currentWay.length - 1]);
+                currentWay.push(cellAround);
+              }
+              else {
+                possibleWays.push(copyOfCurrentWay);
+                possibleWays[possibleWays.length-1].push(cellAround);
+              }              
+            }
+            if (notVerifiedCells.length == 0){
+              if (currentWayNumber == possibleWays.length - 1){
+
+                break;
+              }
+              else {
+                currentWayNumber++;
+                currentWay = possibleWays[currentWayNumber];
+                notVerifiedCells = thisGrid.findWay(currentWay[currentWay.length - 1], currentWay[currentWay.length - 2]);
+              }
+            }
+            cellsAround = notVerifiedCells;
+          }
+          console.log('Possible Ways: ', possibleWays);
+        }
       }
     });
+  }
+
+  findWay(cell, previousCell){
+    const thisGrid = this;
+    
+    console.log('cell, previousCell: ', cell, previousCell);
+
+    const checkedCells = thisGrid.checkFourCellsAround(cell);
+    for (let checkedCell of checkedCells){
+      if (checkedCell == previousCell){
+        const alreadyWritedCell = checkedCells.indexOf(checkedCell);
+        checkedCells.splice(alreadyWritedCell, 1);
+      }
+    }
+    return checkedCells;
+  }
+
+  checkFourCellsAround(centralCell){
+    const thisGrid = this;
+
+    const coordCentralCell = thisGrid.coordinatesStrToInt(centralCell);
+    const centralCellX = coordCentralCell.returnX;
+    const centralCellY = coordCentralCell.returnY;
+    const markedCellsAround = [];
+
+    let topCellCoord = String(centralCellX) + '-' + String(centralCellY - 1);
+    let rightCellCoord = String(centralCellX + 1) + '-' + String(centralCellY);
+    let bottomCellCoord = String(centralCellX) + '-' + String(centralCellY + 1);
+    let leftCellCoord = String(centralCellX - 1) + '-' + String(centralCellY);
+
+    for (let markedCell of thisGrid.markedCells){
+      if (topCellCoord === markedCell){
+        markedCellsAround.push(topCellCoord);
+      }
+      else if (rightCellCoord === markedCell){
+        markedCellsAround.push(rightCellCoord);
+      }
+      else if (bottomCellCoord === markedCell){
+        markedCellsAround.push(bottomCellCoord);
+      }
+      else if (leftCellCoord === markedCell){
+        markedCellsAround.push(leftCellCoord);
+      }
+    }
+
+    return markedCellsAround;
+  }
+
+  coordinatesStrToInt(coordinates){
+    
+    let coordinateX = '';
+    let coordinateY = '';
+    let afterSeparator = false;
+
+    for (let i = 0 ; i < coordinates.length ; i++){
+      if (afterSeparator === false){
+        if (coordinates.charAt(i) == '-'){
+          afterSeparator = true;
+        }
+        else {
+          coordinateX += coordinates.charAt(i);
+        }
+      }
+      else {
+        coordinateY += coordinates.charAt(i);
+      }
+    }
+
+    return {returnX: parseInt(coordinateX), returnY: parseInt(coordinateY)};
   }
 }
 
