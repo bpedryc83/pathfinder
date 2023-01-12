@@ -5,7 +5,7 @@ class Grid {
     const thisGrid = this;
     thisGrid.finderMode = 1; //Modes: 1 - click cell to define it as marked/unmarked ; 2 - indicate start/finish cell; 3 - find the shortest way  
     thisGrid.startCell = 0;
-    thisGrid.finishCell = 0;
+    thisGrid.endCell = 0;
 
     thisGrid.markedCells = [];
     thisGrid.correctWays = [[]];
@@ -155,63 +155,106 @@ class Grid {
             clickedCellDom.classList.replace(classNames.markedCell, classNames.startCell);
           }
           else if (thisGrid.startCell != 0 && thisGrid.startCell != clickedCell){
-            thisGrid.finishCell = clickedCell;
-            clickedCellDom.classList.replace(classNames.markedCell, classNames.finishCell);
+            thisGrid.endCell = clickedCell;
+            clickedCellDom.classList.replace(classNames.markedCell, classNames.endCell);
           }
         }
         else if (thisGrid.finderMode == 3){
-          const possibleWays = [[]];
-          possibleWays[0].push(thisGrid.startCell);
+          const possibleWays = thisGrid.findPossibleWays(thisGrid.startCell);
+          const shortestWay = thisGrid.findShortestWay(possibleWays, thisGrid.endCell);
 
-          let currentWayNumber = 0;
-          let cellsSetToCheck = thisGrid.checkFourCellsAround(thisGrid.startCell);
-
-          while (currentWayNumber < possibleWays.length){
-            let nextCellsSetToCheck = [];
-            let currentWay = possibleWays[currentWayNumber];
-            
-            const copyOfCurrentWay = [...currentWay];
-            let cellExistsInCurrentWay;
-            let cellAddedThisLoop = false;
-
-            for (let cellFromSet of cellsSetToCheck){
-              cellExistsInCurrentWay = false;
-
-              for (let cellFromCurrentWay of possibleWays[currentWayNumber]){
-                if (cellFromSet == cellFromCurrentWay){
-                  cellExistsInCurrentWay = true;
-                  break;
-                }
-              }
-              
-              if (cellExistsInCurrentWay === false){
-                if (cellAddedThisLoop === false){                
-                  nextCellsSetToCheck = thisGrid.findNextCellsToCheck(cellFromSet, currentWay[currentWay.length - 1]);
-                  currentWay.push(cellFromSet);
-                  cellAddedThisLoop = true;
-                }
-                else {
-                  possibleWays.push([...copyOfCurrentWay]);
-                  possibleWays[possibleWays.length-1].push(cellFromSet);
-                }
-              }
-            }
-            if (nextCellsSetToCheck.length == 0){
-              if (currentWayNumber == possibleWays.length - 1){
-                break;
-              }
-              else {
-                currentWayNumber++;
-                currentWay = possibleWays[currentWayNumber];
-                nextCellsSetToCheck = thisGrid.findNextCellsToCheck(currentWay[currentWay.length - 1], currentWay[currentWay.length - 2]);
-              }
-            }
-            cellsSetToCheck = nextCellsSetToCheck;
-          }
-          console.log('Possible Ways: ', possibleWays);
+          console.log('possible ways: ', possibleWays);
+          console.log('shortest way: ', shortestWay);
         }
       }
     });
+  }
+
+  findShortestWay(ways, end){
+
+    const connectingWays = [[]];
+    let shortestWay = [];
+
+    for (let way of ways){
+      for (let cellInWay of way){
+        if (cellInWay == end){
+          const shortWay = [...way];
+
+          const lengthForSplice = shortWay.length - shortWay.indexOf(cellInWay) - 1;
+
+          shortWay.splice(shortWay.indexOf(cellInWay) + 1, lengthForSplice);
+          connectingWays.push(shortWay);
+        }
+      }
+    }
+
+    for (let connectingWay of connectingWays){
+      if (shortestWay.length == 0 || (shortestWay.length > 0 && connectingWay.length < shortestWay.length)){
+        shortestWay = connectingWay;
+      }
+    }
+
+    for (let cell of shortestWay){
+      const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cell + '"]');
+      cellDom.classList.add(classNames.shortestWay);
+    }
+
+    return shortestWay;
+  }
+
+  findPossibleWays(startCell){
+    const thisGrid = this;
+
+    const possibleWays = [[]];
+    possibleWays[0].push(startCell);
+
+    let currentWayNumber = 0;
+    let cellsSetToCheck = thisGrid.checkFourCellsAround(startCell);
+
+    while (currentWayNumber < possibleWays.length){
+      let nextCellsSetToCheck = [];
+      let currentWay = possibleWays[currentWayNumber];
+      
+      const copyOfCurrentWay = [...currentWay];
+      let cellExistsInCurrentWay;
+      let cellAddedThisLoop = false;
+
+      for (let cellFromSet of cellsSetToCheck){
+        cellExistsInCurrentWay = false;
+
+        for (let cellFromCurrentWay of possibleWays[currentWayNumber]){
+          if (cellFromSet == cellFromCurrentWay){
+            cellExistsInCurrentWay = true;
+            break;
+          }
+        }
+        
+        if (cellExistsInCurrentWay === false){
+          if (cellAddedThisLoop === false){                
+            nextCellsSetToCheck = thisGrid.findNextCellsToCheck(cellFromSet, currentWay[currentWay.length - 1]);
+            currentWay.push(cellFromSet);
+            cellAddedThisLoop = true;
+          }
+          else {
+            possibleWays.push([...copyOfCurrentWay]);
+            possibleWays[possibleWays.length-1].push(cellFromSet);
+          }
+        }
+      }
+      if (nextCellsSetToCheck.length == 0){
+        if (currentWayNumber == possibleWays.length - 1){
+          break;
+        }
+        else {
+          currentWayNumber++;
+          currentWay = possibleWays[currentWayNumber];
+          nextCellsSetToCheck = thisGrid.findNextCellsToCheck(currentWay[currentWay.length - 1], currentWay[currentWay.length - 2]);
+        }
+      }
+      cellsSetToCheck = nextCellsSetToCheck;
+    }
+ 
+    return possibleWays;
   }
 
   findNextCellsToCheck(presentCell, previousCell){

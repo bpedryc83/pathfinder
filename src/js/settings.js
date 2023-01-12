@@ -10,7 +10,8 @@ export const classNames = {
   gridColumn: 'grid-column',
   markedCell: 'marked-cell',
   startCell: 'first-cell',
-  finishCell: 'last-cell',
+  endCell: 'last-cell',
+  shortestWay: 'shortest-way',
 };
 
 export const attributeNames = {
