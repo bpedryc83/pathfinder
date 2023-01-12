@@ -9,8 +9,8 @@ export const classNames = {
   gridRow: 'grid-row',
   gridColumn: 'grid-column',
   markedCell: 'marked-cell',
-  firstCell: 'first-cell',
-  lastCell: 'last-cell',
+  startCell: 'first-cell',
+  finishCell: 'last-cell',
 };
 
 export const attributeNames = {
