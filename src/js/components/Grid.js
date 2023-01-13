@@ -71,8 +71,6 @@ class Grid {
       let clickedCellDom;
       let cellPossibleToMark;
 
-      thisGrid.checkFourCellsAround(clickedCell);
-
       if (clickedCell == null) {
         cellPossibleToMark = false;
         console.log('null');
@@ -91,37 +89,38 @@ class Grid {
             // check if unmark of clicked cell is possible
 
             if (clickedCell === cell) {
-
-              const indexOfCell = thisGrid.markedCells.indexOf(cell);
-              let amountMarkedNeighbours = 0;
               cellPossibleToMark = false;
+              const markedNeighbours = thisGrid.checkFourCellsAround(clickedCell, thisGrid.markedCells);
+              const amountMarkedNeighbours = markedNeighbours.length;
+              const indexOfCell = thisGrid.markedCells.indexOf(cell);
 
-              if (thisGrid.markedCells.length > 1) {
-                for (let markedCell of thisGrid.markedCells){
-
-                  const markedCellInteger = thisGrid.coordinatesStrToInt(markedCell);
-                  const rowOfMarkedCell = markedCellInteger.returnX;
-                  const columnOfMarkedCell = markedCellInteger.returnY;
-                  
-                  if ((clickedCellRow == rowOfMarkedCell - 1) && (clickedCellColumn == columnOfMarkedCell)) {
-                    amountMarkedNeighbours++;
-                  }
-                  if ((clickedCellRow == rowOfMarkedCell + 1) && (clickedCellColumn == columnOfMarkedCell)) {
-                    amountMarkedNeighbours++;
-                  }
-                  if ((clickedCellColumn == columnOfMarkedCell - 1) && (clickedCellRow == rowOfMarkedCell)) {
-                    amountMarkedNeighbours++;
-                  }
-                  if ((clickedCellColumn == columnOfMarkedCell + 1) && (clickedCellRow == rowOfMarkedCell)) {
-                    amountMarkedNeighbours++;
-                  }
-                }
-              }
               //console.log('amount: ', amountMarkedNeighbours);
               if (amountMarkedNeighbours === 1 || thisGrid.markedCells.length === 1 ) {
                 thisGrid.markedCells.splice(indexOfCell, 1);
                 clickedCellDom.classList.remove(classNames.markedCell);
                 break;
+              }
+
+              else if (amountMarkedNeighbours > 1){
+                const copyMarkedCells = [...thisGrid.markedCells];
+                const indexOfCellForCopy = copyMarkedCells.indexOf(cell);
+                copyMarkedCells.splice(indexOfCellForCopy, 1);
+
+                const waysFromFirstNeighbour = thisGrid.findPossibleWays(markedNeighbours[0], copyMarkedCells);
+                let foundNeighboursAmount = 0;
+
+                for (let markedNeighbour of markedNeighbours){
+                  for (let array of waysFromFirstNeighbour){
+                    if (array.includes(markedNeighbour)){
+                      foundNeighboursAmount++;
+                      break;
+                    }
+                  }
+                }
+                if (foundNeighboursAmount == amountMarkedNeighbours){
+                  thisGrid.markedCells.splice(indexOfCell, 1);
+                  clickedCellDom.classList.remove(classNames.markedCell);                  
+                }
               }
             }
           }
@@ -143,7 +142,7 @@ class Grid {
               }
             }
           }
-          if (cellPossibleToMark === true || thisGrid.markedCells.length === 0) {
+          if (cellPossibleToMark === true || (thisGrid.markedCells.length === 0 && cellPossibleToMark != false)) {
             thisGrid.markedCells.push(clickedCell);
             clickedCellDom.classList.add(classNames.markedCell);
           }
@@ -160,7 +159,7 @@ class Grid {
           }
         }
         else if (thisGrid.finderMode == 3){
-          const possibleWays = thisGrid.findPossibleWays(thisGrid.startCell);
+          const possibleWays = thisGrid.findPossibleWays(thisGrid.startCell, thisGrid.markedCells);
           const shortestWay = thisGrid.findShortestWay(possibleWays, thisGrid.endCell);
 
           console.log('possible ways: ', possibleWays);
@@ -202,14 +201,14 @@ class Grid {
     return shortestWay;
   }
 
-  findPossibleWays(startCell){
+  findPossibleWays(startCell, arrayMarkedCells){
     const thisGrid = this;
 
     const possibleWays = [[]];
     possibleWays[0].push(startCell);
 
     let currentWayNumber = 0;
-    let cellsSetToCheck = thisGrid.checkFourCellsAround(startCell);
+    let cellsSetToCheck = thisGrid.checkFourCellsAround(startCell, arrayMarkedCells);
 
     while (currentWayNumber < possibleWays.length){
       let nextCellsSetToCheck = [];
@@ -231,7 +230,7 @@ class Grid {
         
         if (cellExistsInCurrentWay === false){
           if (cellAddedThisLoop === false){                
-            nextCellsSetToCheck = thisGrid.findNextCellsToCheck(cellFromSet, currentWay[currentWay.length - 1]);
+            nextCellsSetToCheck = thisGrid.findNextCellsToCheck(cellFromSet, currentWay[currentWay.length - 1], arrayMarkedCells);
             currentWay.push(cellFromSet);
             cellAddedThisLoop = true;
           }
@@ -248,7 +247,7 @@ class Grid {
         else {
           currentWayNumber++;
           currentWay = possibleWays[currentWayNumber];
-          nextCellsSetToCheck = thisGrid.findNextCellsToCheck(currentWay[currentWay.length - 1], currentWay[currentWay.length - 2]);
+          nextCellsSetToCheck = thisGrid.findNextCellsToCheck(currentWay[currentWay.length - 1], currentWay[currentWay.length - 2], arrayMarkedCells);
         }
       }
       cellsSetToCheck = nextCellsSetToCheck;
@@ -257,10 +256,10 @@ class Grid {
     return possibleWays;
   }
 
-  findNextCellsToCheck(presentCell, previousCell){
+  findNextCellsToCheck(presentCell, previousCell, arrayMarkedCells){
     const thisGrid = this;
     
-    const newCellsSet = thisGrid.checkFourCellsAround(presentCell);
+    const newCellsSet = thisGrid.checkFourCellsAround(presentCell, arrayMarkedCells);
     for (let possibleCell of newCellsSet){
       if (possibleCell == previousCell){
         const alreadyRecordedCell = newCellsSet.indexOf(possibleCell);
@@ -270,7 +269,7 @@ class Grid {
     return newCellsSet;
   }
 
-  checkFourCellsAround(centralCell){
+  checkFourCellsAround(centralCell, arrayMarkedCells){
     const thisGrid = this;
 
     const coordCentralCell = thisGrid.coordinatesStrToInt(centralCell);
@@ -283,7 +282,7 @@ class Grid {
     let bottomCellCoord = String(centralCellX) + '-' + String(centralCellY + 1);
     let leftCellCoord = String(centralCellX - 1) + '-' + String(centralCellY);
 
-    for (let markedCell of thisGrid.markedCells){
+    for (let markedCell of arrayMarkedCells){
       if (topCellCoord === markedCell){
         markedCellsAround.push(topCellCoord);
       }
