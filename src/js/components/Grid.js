@@ -8,6 +8,7 @@ class Grid {
     thisGrid.endCell = 0;
 
     thisGrid.markedCells = [];
+    thisGrid.possibleToMarkCells = [];
     thisGrid.correctWays = [[]];
     thisGrid.getElements();
     thisGrid.prepareGridDivs();
@@ -46,6 +47,11 @@ class Grid {
       if (thisGrid.finderMode === 1 && thisGrid.markedCells.length > 3) {
         thisGrid.finderMode = 2;
         thisGrid.dom.spanModeID.innerHTML = textData.modeNumber2;
+
+        for (let cell of thisGrid.possibleToMarkCells){
+          const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cell + '"]');
+          cellDom.classList.remove(classNames.possibleMove); 
+        }
       }
       else if (thisGrid.finderMode === 2) {
         thisGrid.finderMode = 3;
@@ -55,6 +61,7 @@ class Grid {
       else {
         thisGrid.finderMode = 1;
         thisGrid.dom.spanModeID.innerHTML = textData.modeNumber1;
+        thisGrid.renderPossibleMove();
       }
     });
 
@@ -98,6 +105,7 @@ class Grid {
               if (amountMarkedNeighbours === 1 || thisGrid.markedCells.length === 1 ) {
                 thisGrid.markedCells.splice(indexOfCell, 1);
                 clickedCellDom.classList.remove(classNames.markedCell);
+                thisGrid.renderPossibleMove(); 
                 break;
               }
 
@@ -119,7 +127,8 @@ class Grid {
                 }
                 if (foundNeighboursAmount == amountMarkedNeighbours){
                   thisGrid.markedCells.splice(indexOfCell, 1);
-                  clickedCellDom.classList.remove(classNames.markedCell);                  
+                  clickedCellDom.classList.remove(classNames.markedCell);
+                  thisGrid.renderPossibleMove();                  
                 }
               }
             }
@@ -145,10 +154,12 @@ class Grid {
           if (cellPossibleToMark === true || (thisGrid.markedCells.length === 0 && cellPossibleToMark != false)) {
             thisGrid.markedCells.push(clickedCell);
             clickedCellDom.classList.add(classNames.markedCell);
+            thisGrid.renderPossibleMove();
           }
           console.log('Array markedCells: ', thisGrid.markedCells);
         }
         else if (thisGrid.finderMode == 2){
+
           if (thisGrid.startCell == 0){
             thisGrid.startCell = clickedCell;
             clickedCellDom.classList.replace(classNames.markedCell, classNames.startCell);
@@ -167,6 +178,39 @@ class Grid {
         }
       }
     });
+  }
+
+  renderPossibleMove(){
+    const thisGrid = this;
+
+    for (let cell of thisGrid.possibleToMarkCells){
+      const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cell + '"]');
+      cellDom.classList.remove(classNames.possibleMove); 
+    }
+
+    for (let markedCell of thisGrid.markedCells){
+      const cellCoordinates = thisGrid.coordinatesStrToInt(markedCell);
+      const centralCellX = cellCoordinates.returnX;
+      const centralCellY = cellCoordinates.returnY;
+
+      const cellsAroundMarkedCell = [];
+  
+      if (centralCellY > gridParams.firstRow && centralCellY < gridParams.lastRow){
+        cellsAroundMarkedCell.push(String(centralCellX) + '-' + String(centralCellY - 1));
+        cellsAroundMarkedCell.push(String(centralCellX) + '-' + String(centralCellY + 1));
+      }
+      if (centralCellX > gridParams.firstColumn && centralCellX < gridParams.lastColumn){
+        cellsAroundMarkedCell.push(String(centralCellX + 1) + '-' + String(centralCellY));
+        cellsAroundMarkedCell.push(String(centralCellX - 1) + '-' + String(centralCellY));
+      }
+      for (let cellAround of cellsAroundMarkedCell){
+        if (!thisGrid.markedCells.includes(cellAround)){
+          const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cellAround + '"]');
+          cellDom.classList.add(classNames.possibleMove);
+          thisGrid.possibleToMarkCells.push(cellAround);
+        }
+      }
+    }
   }
 
   findShortestWay(ways, end){

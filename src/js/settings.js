@@ -12,6 +12,7 @@ export const classNames = {
   startCell: 'first-cell',
   endCell: 'last-cell',
   shortestWay: 'shortest-way',
+  possibleMove: 'possible-move',
 };
 
 export const attributeNames = {

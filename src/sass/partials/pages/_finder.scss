@@ -39,6 +39,11 @@
   background-color: $color-shortestWay;
 }
 
+.possible-move {
+  background-color: $color-possible-move;
+  opacity: 50%;
+}
+
 .button {
   height: 20px;
   width: 30%;
