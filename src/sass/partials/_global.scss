@@ -18,9 +18,60 @@ body {
   padding: 0 20px;
 }
 
-.main-image {
-  background-image: url('/images/background.jpg');
+#pages {
+  > * {
+    display: none;
+  }
+  
+  > .active {
+    display: block;
+  }
+}
+
+.menu {
+  height: 100px;
+  width: 40%;
+  padding-top: 20px;
+  margin: auto auto;
+  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+
+  div {
+    margin-right: 10px;
+    margin-left: 10px;
+    a {
+      color: $color-text;
+      list-style-type: none;
+      text-decoration: none;
+      font-family: $font-main;
+      font-size: 14px;
+      font-weight: $font-semibold;
+      letter-spacing: 2px;
+    }
+  }
+}
+
+.upper-div {
+  background-image: linear-gradient(to bottom, rgb(255, 255, 255, 0.01) 50%, rgba(0, 0, 0, 0.8)), url('/images/background.jpg');
   background-size: cover;
   background-position: center;
-  min-height: 500px;
+  position: relative;
+  min-height: 480px;
+  text-align: center;
+  z-index: 1;
+}
+
+.middle-div {
+  position: relative;
+  height: 0px;
+  background-color: black;
+  z-index: 2;
+}
+
+.lower-div {
+  position: relative;
+  background-color: black;
+  min-height: 480px;
+  z-index: 0;
 }

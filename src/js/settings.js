@@ -1,7 +1,13 @@
 export const select = {
   containerOf: {
     gridArea: '.grid-area',
+    aboveGridArea: '.above-grid-area',
+    belowGridArea: '.below-grid-area',
     searchPathButton: '.button',
+    pages: '#pages',
+  },
+  nav: {
+    links: '.menu a',
   }
 };
 
@@ -13,6 +19,9 @@ export const classNames = {
   endCell: 'last-cell',
   shortestWay: 'shortest-way',
   possibleMove: 'possible-move',
+  pages: {
+    active: 'active',
+  }
 };
 
 export const attributeNames = {
@@ -22,13 +31,16 @@ export const attributeNames = {
 
 export const gridParams = {
   firstRow: 1,
-  lastRow: 9,
+  lastRow: 10,
   firstColumn: 1,
-  lastColumn: 9,
+  lastColumn: 10,
 };
 
 export const textData = {
-  modeNumber1: '1',
-  modeNumber2: '2',
-  modeNumber3: '3',
+  buttonMode1: 'FINISH DRAWING',
+  buttonMode2: 'COMPUTE',
+  buttonMode3: 'START AGAIN',
+  titleMode1: 'DRAW ROUTES',
+  titleMode2: 'PICK START AND FINISH',
+  titleMode3: 'THE BEST ROUTE IS...',
 };
