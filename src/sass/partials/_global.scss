@@ -40,6 +40,7 @@ body {
   div {
     margin-right: 10px;
     margin-left: 10px;
+
     a {
       color: $color-text;
       list-style-type: none;
@@ -67,6 +68,9 @@ body {
   height: 0px;
   background-color: black;
   z-index: 2;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
 }
 
 .lower-div {
