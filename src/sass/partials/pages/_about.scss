@@ -1,18 +1,11 @@
 .top-picture-area {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  margin-left: 50px;
-  top: -27px;
-  //left: 45%;
-  //transform: translate(-50%, -50%);
-  width: 80%;
+  position: relative;
 
   .text-at-pictures {
-    position: relative;
-    flex: 1;
-    transform: translateX(-50%);
+    position: absolute;
+    left: 50%;
+    bottom: -20px;
+    transform: translateX(-58%);
     z-index: 5;
     text-align: left;
   
@@ -32,21 +25,16 @@
   }
 }
 
-.top-picture-relative-div {
-  flex: 1;
-  position: relative;
-  overflow: visible;
-  z-index: 4;
-}
-
-.top-picture-absolute-div {
-  flex: 1;
+.top-picture {
+  width: 100%;
   position: absolute;
   overflow: visible;
-  top: -110px;
+  z-index: 4;
+  bottom: -45px;
+  right: 150px;
 
   img {
-    width: 100%;
+    width: 40%;
     height: auto;
     object-fit: cover;
   }
@@ -90,5 +78,53 @@
     width: 65%;
     height: auto;
     object-fit: cover;
+  }
+}
+
+@media (max-width: 700px){
+
+  .top-picture-area {
+
+    .text-at-pictures {
+      position: relative;
+      bottom: 28px;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+  }
+
+  .smaller-text-at-pictures {
+    font-size: 11px;
+  }
+
+  .top-picture {
+    position: relative;
+    top: -15px;
+    right: 0;
+  
+    img {
+      min-width: 270px;
+    }
+  }
+
+
+  .bottom-picture-area {
+  
+    .text-at-pictures {
+      position: relative;
+      top: 20px;
+      left: 0;
+      text-align: center;
+    }
+  }
+
+  .bottom-picture {
+    left: 0;
+    top: 35px;
+    position: relative;
+  
+    img {
+      width: 300px;
+    }
   }
 }

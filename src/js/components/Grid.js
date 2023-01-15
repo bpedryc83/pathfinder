@@ -3,7 +3,7 @@ import {classNames, select, attributeNames, gridParams, textData} from '../setti
 class Grid {
   constructor(){
     const thisGrid = this;
-    thisGrid.finderMode = 1; //Modes: 1 - click cell to define it as marked/unmarked ; 2 - indicate start/finish cell; 3 - find the shortest way  
+    thisGrid.finderMode = 1; //Modes: 1 - click cell to define it as marked/unmarked ; 2 - indicate start/finish cell; 3 - display the shortest way  
     thisGrid.startCell = 0;
     thisGrid.endCell = 0;
 
@@ -47,7 +47,7 @@ class Grid {
 
     thisGrid.dom.searchPathButton.addEventListener('click', function(event){
       event.preventDefault();
-      if (thisGrid.finderMode === 1 && thisGrid.markedCells.length > 3) {
+      if (thisGrid.finderMode === 1 && thisGrid.markedCells.length > 1) {
         thisGrid.finderMode = 2;
         thisGrid.dom.aboveGrid.innerHTML = textData.titleMode2;
         thisGrid.dom.spanModeID.innerHTML = textData.buttonMode2;
@@ -75,7 +75,7 @@ class Grid {
       }
       else {
         location.reload();
-        
+
         /*thisGrid.finderMode = 1;
         thisGrid.dom.spanModeID.innerHTML = textData.modeNumber1;
         thisGrid.renderPossibleMove();*/
@@ -123,7 +123,6 @@ class Grid {
               const amountMarkedNeighbours = markedNeighbours.length;
               const indexOfCell = thisGrid.markedCells.indexOf(cell);
 
-              //console.log('amount: ', amountMarkedNeighbours);
               if (amountMarkedNeighbours === 1 || thisGrid.markedCells.length === 1 ) {
                 thisGrid.markedCells.splice(indexOfCell, 1);
                 clickedCellDom.classList.remove(classNames.markedCell);
@@ -194,16 +193,6 @@ class Grid {
             clickedCellDom.classList.replace(classNames.markedCell, classNames.endCell);
           }
         }
-        
-        // MODE 3
-                
-        /*else if (thisGrid.finderMode == 3){
-          const possibleWays = thisGrid.findPossibleWays(thisGrid.startCell, thisGrid.markedCells);
-          const shortestWay = thisGrid.findShortestWay(possibleWays, thisGrid.endCell);
-
-          console.log('possible ways: ', possibleWays);
-          console.log('shortest way: ', shortestWay);
-        }*/
       }
     });
   }
