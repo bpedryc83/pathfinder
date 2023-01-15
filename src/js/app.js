@@ -41,7 +41,7 @@ export const app = {
       page.classList.toggle(classNames.pages.active, page.id == pageId);
     }
   },
-  
+
   initGrid: function(){
     //const thisApp = this;
 
