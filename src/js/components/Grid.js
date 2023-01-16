@@ -6,6 +6,11 @@ class Grid {
     thisGrid.finderMode = 1; //Modes: 1 - click cell to define it as marked/unmarked ; 2 - indicate start/finish cell; 3 - display the shortest way  
     thisGrid.startCell = 0;
     thisGrid.endCell = 0;
+    
+    thisGrid.possibleRoutesSummary = 0;
+    thisGrid.fullRouteSummary = 0;
+    thisGrid.longestRouteSummary = 0;
+    thisGrid.shortestRouteSummary = 0;
 
     thisGrid.markedCells = [];
     thisGrid.possibleToMarkCells = [];
@@ -19,6 +24,11 @@ class Grid {
 
     thisGrid.dom = {};
     thisGrid.dom.grid = document.querySelector(select.containerOf.gridArea);
+    
+    thisGrid.dom.containerWithOpacity = document.querySelector(select.id.containerWithOpacity);
+    thisGrid.dom.popUp = document.querySelector(select.id.popUp);
+    thisGrid.dom.closePopUp = document.querySelector(select.id.closePopUp);
+
     thisGrid.dom.aboveGrid = document.querySelector(select.containerOf.aboveGridArea);
     thisGrid.dom.belowGrid = document.querySelector(select.containerOf.belowGridArea);
     thisGrid.dom.searchPathButton = document.querySelector(select.containerOf.searchPathButton);
@@ -65,6 +75,8 @@ class Grid {
 
           const possibleWays = thisGrid.findPossibleWays(thisGrid.startCell, thisGrid.markedCells);
           const shortestWay = thisGrid.findShortestWay(possibleWays, thisGrid.endCell);
+
+          thisGrid.showSummary();
 
           console.log('possible ways: ', possibleWays);
           console.log('shortest way: ', shortestWay);
@@ -188,7 +200,13 @@ class Grid {
             thisGrid.startCell = clickedCell;
             clickedCellDom.classList.replace(classNames.markedCell, classNames.startCell);
           }
-          else if (thisGrid.startCell != 0 && thisGrid.startCell != clickedCell){
+          else if (thisGrid.startCell != 0 && thisGrid.startCell != clickedCell && thisGrid.endCell == 0){
+            thisGrid.endCell = clickedCell;
+            clickedCellDom.classList.replace(classNames.markedCell, classNames.endCell);          
+          }
+          else if (thisGrid.startCell != 0 && thisGrid.endCell != 0 && thisGrid.endCell != clickedCell){
+            const endCellDom = document.querySelector(select.containerOf.endCell);
+            endCellDom.classList.replace(classNames.endCell, classNames.markedCell);
             thisGrid.endCell = clickedCell;
             clickedCellDom.classList.replace(classNames.markedCell, classNames.endCell);
           }
@@ -231,19 +249,31 @@ class Grid {
   }
 
   findShortestWay(ways, end){
+    const thisGrid = this;
 
-    const connectingWays = [[]];
+    const connectingWays = [];
     let shortestWay = [];
+    let longestWay = [];
 
     for (let way of ways){
       for (let cellInWay of way){
         if (cellInWay == end){
-          const shortWay = [...way];
+          const startEndWay = [...way];
 
-          const lengthForSplice = shortWay.length - shortWay.indexOf(cellInWay) - 1;
+          const lengthForSplice = startEndWay.length - startEndWay.indexOf(cellInWay) - 1;
+          startEndWay.splice(startEndWay.indexOf(cellInWay) + 1, lengthForSplice);
+          
+          let pushPossible = true;
+          let startEndWayJoin = startEndWay.join();
 
-          shortWay.splice(shortWay.indexOf(cellInWay) + 1, lengthForSplice);
-          connectingWays.push(shortWay);
+          for (let connectingWay of connectingWays){
+            if (startEndWayJoin == connectingWay.join()){
+              pushPossible = false;
+            }
+          }
+          if (pushPossible){
+            connectingWays.push(startEndWay);
+          }
         }
       }
     }
@@ -252,12 +282,20 @@ class Grid {
       if (shortestWay.length == 0 || (shortestWay.length > 0 && connectingWay.length < shortestWay.length)){
         shortestWay = connectingWay;
       }
+      if (longestWay.length == 0 || (longestWay.length > 0 && connectingWay.length > longestWay.length)){
+        longestWay = connectingWay;
+      }
+      thisGrid.fullRouteSummary += connectingWay.length;
     }
 
     for (let cell of shortestWay){
       const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cell + '"]');
       cellDom.classList.add(classNames.shortestWay);
     }
+
+    thisGrid.possibleRoutesSummary = connectingWays.length;
+    thisGrid.longestRouteSummary = longestWay.length;
+    thisGrid.shortestRouteSummary = shortestWay.length;
 
     return shortestWay;
   }
@@ -359,6 +397,30 @@ class Grid {
     }
 
     return markedCellsAround;
+  }
+
+  showSummary(){
+    const thisGrid = this;
+    
+    const possibleRoutesSummaryDOM = document.querySelector(select.id.possibleRoutesSummary); 
+    const fullRouteSummaryDOM = document.querySelector(select.id.fullRouteSummary);
+    const longestRouteSummaryDOM = document.querySelector(select.id.longestRouteSummary);
+    const shortestRouteSummaryDOM = document.querySelector(select.id.shortestRouteSummary);
+
+    possibleRoutesSummaryDOM.innerHTML = thisGrid.possibleRoutesSummary;
+    fullRouteSummaryDOM.innerHTML = thisGrid.fullRouteSummary;
+    longestRouteSummaryDOM.innerHTML = thisGrid.longestRouteSummary;
+    shortestRouteSummaryDOM.innerHTML = thisGrid.shortestRouteSummary;
+
+    thisGrid.dom.containerWithOpacity.classList.replace(classNames.layerOpacityNo, classNames.layerOpacityYes);
+    thisGrid.dom.popUp.classList.replace(classNames.popUpNotVisible, classNames.popUpVisible);
+    
+    thisGrid.dom.closePopUp.addEventListener('click',function(event){
+      event.preventDefault();
+
+      thisGrid.dom.containerWithOpacity.classList.replace(classNames.layerOpacityYes, classNames.layerOpacityNo);
+      thisGrid.dom.popUp.classList.replace(classNames.popUpVisible, classNames.popUpNotVisible);  
+    });
   }
 
   coordinatesStrToInt(coordinates){

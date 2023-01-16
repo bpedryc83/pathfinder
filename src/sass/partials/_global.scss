@@ -16,6 +16,7 @@ body {
   max-width: 700px;
   margin: 0 auto;
   padding: 0 20px;
+  z-index: 0;
 }
 
 #pages {
@@ -111,13 +112,81 @@ body {
   position: relative;
   background-color: black;
   line-height: 30px;
-  //top: 90%;
-  //left: 50%;
-  //transform: translateX(-50%);
   font-family: $font-main;
   font-size: 8px;
   letter-spacing: 3px;
   font-weight: $font-regular;
+  z-index: 4;
+}
+
+.container-opacity-no {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.container-opacity-yes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: black;
+  opacity: 0.6;
+}
+
+.pop-up-not-visible {
+  display: none;
+}
+
+.pop-up-visible {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 220px;
+  background-color: white;
+  color: black;
+  z-index: 11;
+  opacity: 1;
+}
+
+.closeX {
+  text-align: right;
+  padding-right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.pop-up-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: $font-black;
+  letter-spacing: 3px;
+}
+
+.pop-up-text {
+  text-align: left;
+  font-weight: $font-semibold;
+  padding-left: 40px;
+  padding-top: 15px; 
+  font-size: 16px;
+  letter-spacing: 1px;
+  line-height: 1.5;
+}
+
+.bold {
+  font-weight: $font-black;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
 }
 
 @media (max-width: 500px){

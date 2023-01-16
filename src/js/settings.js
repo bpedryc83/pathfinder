@@ -4,10 +4,20 @@ export const select = {
     aboveGridArea: '.above-grid-area',
     belowGridArea: '.below-grid-area',
     searchPathButton: '.button',
+    endCell: '.last-cell',
     pages: '#pages',
   },
   nav: {
     links: '.menu a',
+  },
+  id: {
+    possibleRoutesSummary: '#possible-routes',
+    fullRouteSummary: '#full-route',
+    longestRouteSummary: '#longest-route',
+    shortestRouteSummary: '#shortest-route',
+    containerWithOpacity: '#container-with-opacity',
+    popUp: '#pop-up',
+    closePopUp: '#close-pop-up',
   }
 };
 
@@ -19,6 +29,10 @@ export const classNames = {
   endCell: 'last-cell',
   shortestWay: 'shortest-way',
   possibleMove: 'possible-move',
+  layerOpacityNo: 'container-opacity-no',
+  layerOpacityYes: 'container-opacity-yes',
+  popUpVisible: 'pop-up-visible',
+  popUpNotVisible: 'pop-up-not-visible',
   pages: {
     active: 'active',
   }
