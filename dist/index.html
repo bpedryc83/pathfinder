@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pathfinder - for travellers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <div id="container-with-opacity" class="container-opacity-no">
+      </div>
+      <div id="pop-up" class="pop-up-not-visible">
+        <div id="close-pop-up" class="closeX">X</div>
+        <div class="pop-up-title">SUMMARY</div>
+        <div class="pop-up-text">
+          <span class="bold">POSSIBLE: </span><span class="red" id="possible-routes"></span><span> ROUTES</span><br>
+          <span class="bold">FULL ROUTE: </span><span class="red" id="full-route"></span><span> FIELDS</span><br>
+          <span class="bold">THE LONGEST ROUTE: </span><span class="red" id="longest-route"></span><span> FIELDS</span><br>
+          <span class="bold">THE SHORTEST ROUTE: </span><span class="green" id="shortest-route"></span><span> FIELDS</span><br>
+        </div>        
+      </div>
+      <div class="upper-div">
+        <div class="menu">
+          <div><a href="#about">ABOUT</a></div>
+          <div><a href="#finder">FINDER</a></div>
+        </div>
+        <div class="header">
+          <div class="bigger-title-part">
+            PATHFINDER
+          </div>
+          <div class="smaller-title-part">
+            FOR TRAVELLERS
+          </div>
+        </div>
+      </div>
+      <div id="pages">
+        <div class="middle-div" id="about">
+          <div class="top-picture-area" data-aos="flip-right" data-aos-duration="2000" data-aos-offset="100">
+            <div class="text-at-pictures">
+              <div class="bigger-text-at-pictures">
+                PLAN YOUR JOURNEYS
+              </div>
+              <div class="smaller-text-at-pictures">
+                Pick attractions and book hotels
+              </div>
+            </div>
+            <div class="top-picture">
+              <img src="images/1.jpg" alt="image-top">
+            </div>
+          </div>
+          <div class="bottom-picture-area" data-aos="flip-left" data-aos-duration="2000" data-aos-offset="100">
+            <div class="text-at-pictures">
+              <div class="bigger-text-at-pictures">
+                MINIMALIZE BOREDOM
+              </div>
+              <div class="smaller-text-at-pictures">
+                Pick routes that are short and atractive
+              </div>
+            </div>
+            <div class="bottom-picture">
+              <img src="images/2.jpg" alt="image-bottom">
+            </div>
+          </div>
+        </div>
+        <div class="middle-div" id="finder">
+          <div class="dynamic-content">
+            <div class="above-grid-area">
+            </div>
+            <div class="grid-area">
+            </div>
+            <div class="below-grid-area">
+              <div class="button">
+                <span id="modeNumber"></span>
+              </div>
+            </div>
+          </div>
+          <div class="text-small-devices">
+            This app is browser only<br>
+            (minimum width screen resolution: 350px).
+          </div>
+        </div>
+      </div>
+      <div class="lower-div">
+      </div>
+      <div class="copyright">
+        All rights reserved
+      </div>
+    </div>
+    <script src="js/app.js" type="module"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+  </body>
+</html>
