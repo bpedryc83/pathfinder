@@ -51,6 +51,10 @@ body {
       font-weight: $font-semibold;
       letter-spacing: 2px;
     }
+    a.currentPageLink {
+      font-weight: $font-black;
+      text-decoration: underline;
+    }
   }
 }
 
@@ -69,13 +73,11 @@ body {
   font-weight: $font-bold;
   line-height: 42px;
   letter-spacing: 22px;
-  //text-align: center;
 }
 
 .smaller-title-part {
   font-size: 14px;
   letter-spacing: 5px;
-  //text-align: right;
   padding-right: 22px;
   font-weight: $font-bold;
 }
@@ -171,14 +173,20 @@ body {
   text-align: left;
   font-weight: $font-semibold;
   padding-left: 40px;
-  padding-top: 15px; 
+  padding-top: 15px;
   font-size: 16px;
   letter-spacing: 1px;
   line-height: 1.5;
 }
 
-.bold {
-  font-weight: $font-black;
+.pop-up-alert {
+  text-align: center;
+  font-weight: $font-bold;
+  padding-top: 25px;
+  font-size: 18px;
+  letter-spacing: 1px;
+  line-height: 1.5;
+  color: red;
 }
 
 .green {
@@ -187,6 +195,7 @@ body {
 
 .red {
   color: red;
+
 }
 
 @media (max-width: 500px){

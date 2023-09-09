@@ -33,6 +33,15 @@
   font-weight: $font-bold;
 }
 
+.title-above-grid {
+  padding: 7px;
+  border: 2px solid white;
+  border-radius: 5px;
+  color: $color-marked-cell;
+  font-size: 20px;
+  background-color: rgb(0, 0, 0, 60%);
+}
+
 .below-grid-area {
   min-height: 40px;
   text-align: center;
@@ -72,11 +81,35 @@
 }
 
 .first-cell {
+  position: relative;
   background-color: $color-first-cell;
 }
 
+.first-cell::before {
+  content: "S";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+
 .last-cell {
+  position: relative;
   background-color: $color-last-cell;
+}
+
+.last-cell::before {
+  content: "F";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
 }
 
 .shortest-way {

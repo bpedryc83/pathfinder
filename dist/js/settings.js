@@ -4,6 +4,7 @@ export const select = {
     aboveGridArea: '.above-grid-area',
     belowGridArea: '.below-grid-area',
     searchPathButton: '.button',
+    startCell: '.first-cell',
     endCell: '.last-cell',
     pages: '#pages',
   },
@@ -16,8 +17,12 @@ export const select = {
     longestRouteSummary: '#longest-route',
     shortestRouteSummary: '#shortest-route',
     containerWithOpacity: '#container-with-opacity',
-    popUp: '#pop-up',
-    closePopUp: '#close-pop-up',
+    popUpSummary: '#pop-up-summary',
+    closePopUpSummary: '#close-pop-up-summary',
+    popUpTwoCells: '#pop-up-two-cells',
+    closePopUpTwoCells: '#close-pop-up-two-cells',
+    popUpMarkStartFinish: '#pop-up-mark-start-finish',
+    closePopUpMarkStartFinish: '#close-pop-up-mark-start-finish',
   }
 };
 
@@ -35,6 +40,9 @@ export const classNames = {
   popUpNotVisible: 'pop-up-not-visible',
   pages: {
     active: 'active',
+  },
+  links: {
+    active: 'currentPageLink',
   }
 };
 
@@ -51,10 +59,10 @@ export const gridParams = {
 };
 
 export const textData = {
-  buttonMode1: 'FINISH DRAWING',
-  buttonMode2: 'COMPUTE',
-  buttonMode3: 'START AGAIN',
   titleMode1: 'DRAW ROUTES',
   titleMode2: 'PICK START AND FINISH',
   titleMode3: 'THE BEST ROUTE IS...',
+  buttonMode1: 'FINISH DRAWING',
+  buttonMode2: 'SEARCH PATH',
+  buttonMode3: 'START AGAIN',
 };

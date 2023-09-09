@@ -26,8 +26,12 @@ class Grid {
     thisGrid.dom.grid = document.querySelector(select.containerOf.gridArea);
     
     thisGrid.dom.containerWithOpacity = document.querySelector(select.id.containerWithOpacity);
-    thisGrid.dom.popUp = document.querySelector(select.id.popUp);
-    thisGrid.dom.closePopUp = document.querySelector(select.id.closePopUp);
+    thisGrid.dom.popUpSummary = document.querySelector(select.id.popUpSummary);
+    thisGrid.dom.closePopUpSummary = document.querySelector(select.id.closePopUpSummary);
+    thisGrid.dom.popUpTwoCells = document.querySelector(select.id.popUpTwoCells);
+    thisGrid.dom.closePopUpTwoCells = document.querySelector(select.id.closePopUpTwoCells);
+    thisGrid.dom.popUpMarkStartFinish = document.querySelector(select.id.popUpMarkStartFinish);
+    thisGrid.dom.closePopUpMarkStartFinish = document.querySelector(select.id.closePopUpMarkStartFinish);
 
     thisGrid.dom.aboveGrid = document.querySelector(select.containerOf.aboveGridArea);
     thisGrid.dom.belowGrid = document.querySelector(select.containerOf.belowGridArea);
@@ -38,7 +42,12 @@ class Grid {
   prepareGridDivs() {
     const thisGrid = this;
 
-    thisGrid.dom.aboveGrid.innerHTML = textData.titleMode1;
+    const modeTitleSpan = document.createElement('span');
+    modeTitleSpan.classList.add('title-above-grid');
+    modeTitleSpan.innerHTML = textData.titleMode1;
+    thisGrid.dom.aboveGrid.append(modeTitleSpan);
+
+    //thisGrid.dom.aboveGrid.innerHTML = textData.titleMode1;
 
     for (let y = gridParams.firstRow ; y <= gridParams.lastRow ; y++) {
       const div = document.createElement('div');
@@ -57,20 +66,27 @@ class Grid {
 
     thisGrid.dom.searchPathButton.addEventListener('click', function(event){
       event.preventDefault();
-      if (thisGrid.finderMode === 1 && thisGrid.markedCells.length > 1) {
-        thisGrid.finderMode = 2;
-        thisGrid.dom.aboveGrid.innerHTML = textData.titleMode2;
-        thisGrid.dom.spanModeID.innerHTML = textData.buttonMode2;
+      if (thisGrid.finderMode === 1) {
+        if (thisGrid.markedCells.length > 1) {
+          thisGrid.finderMode = 2;
+          modeTitleSpan.innerHTML = textData.titleMode2;
+          //thisGrid.dom.aboveGrid.innerHTML = textData.titleMode2;
+          thisGrid.dom.spanModeID.innerHTML = textData.buttonMode2;
 
-        for (let cell of thisGrid.possibleToMarkCells){
-          const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cell + '"]');
-          cellDom.classList.remove(classNames.possibleMove); 
+          for (let cell of thisGrid.possibleToMarkCells){
+            const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cell + '"]');
+            cellDom.classList.remove(classNames.possibleMove); 
+          }
+        }
+        else {
+          thisGrid.alertTwoCells();
         }
       }
       else if (thisGrid.finderMode === 2) {
         if (thisGrid.startCell != 0 && thisGrid.endCell != 0){
           thisGrid.finderMode = 3;
-          thisGrid.dom.aboveGrid.innerHTML = textData.titleMode3;
+          modeTitleSpan.innerHTML = textData.titleMode3;
+          //thisGrid.dom.aboveGrid.innerHTML = textData.titleMode3;
           thisGrid.dom.spanModeID.innerHTML = textData.buttonMode3;
 
           const possibleWays = thisGrid.findPossibleWays(thisGrid.startCell, thisGrid.markedCells);
@@ -82,15 +98,30 @@ class Grid {
           console.log('shortest way: ', shortestWay);
         }
         else {
-          alert('Specify the route end cell');
+          thisGrid.alertMarkStartFinish();
         }
       }
       else {
-        location.reload();
+        thisGrid.finderMode = 1;
+        thisGrid.dom.spanModeID.innerHTML = textData.buttonMode1;
 
-        /*thisGrid.finderMode = 1;
-        thisGrid.dom.spanModeID.innerHTML = textData.modeNumber1;
-        thisGrid.renderPossibleMove();*/
+        thisGrid.markedCells.length = 0;
+        thisGrid.possibleToMarkCells.length = 0;
+
+        thisGrid.startCell = 0;
+        thisGrid.endCell = 0;
+        
+        thisGrid.possibleRoutesSummary = 0;
+        thisGrid.fullRouteSummary = 0;
+        thisGrid.longestRouteSummary = 0;
+        thisGrid.shortestRouteSummary = 0;
+
+        thisGrid.correctWays.length = 1;
+        thisGrid.correctWays[0].length = 0;
+
+        thisGrid.clearCellsStyles();
+
+        thisGrid.renderPossibleMove();
       }
     });
 
@@ -199,16 +230,22 @@ class Grid {
           if (thisGrid.startCell == 0){
             thisGrid.startCell = clickedCell;
             clickedCellDom.classList.replace(classNames.markedCell, classNames.startCell);
+
           }
           else if (thisGrid.startCell != 0 && thisGrid.startCell != clickedCell && thisGrid.endCell == 0){
             thisGrid.endCell = clickedCell;
             clickedCellDom.classList.replace(classNames.markedCell, classNames.endCell);          
           }
-          else if (thisGrid.startCell != 0 && thisGrid.endCell != 0 && thisGrid.endCell != clickedCell){
+          else if (thisGrid.startCell != 0 && thisGrid.endCell != 0 && thisGrid.startCell != clickedCell && thisGrid.endCell != clickedCell){
+            const startCellDom = document.querySelector(select.containerOf.startCell);
+            startCellDom.classList.replace(classNames.startCell, classNames.markedCell);
+
+            thisGrid.startCell = clickedCell;
+
             const endCellDom = document.querySelector(select.containerOf.endCell);
             endCellDom.classList.replace(classNames.endCell, classNames.markedCell);
-            thisGrid.endCell = clickedCell;
-            clickedCellDom.classList.replace(classNames.markedCell, classNames.endCell);
+            thisGrid.endCell = 0;
+            clickedCellDom.classList.replace(classNames.markedCell, classNames.startCell);
           }
         }
       }
@@ -399,6 +436,34 @@ class Grid {
     return markedCellsAround;
   }
 
+  alertTwoCells(){
+    const thisGrid = this;
+
+    thisGrid.dom.containerWithOpacity.classList.replace(classNames.layerOpacityNo, classNames.layerOpacityYes);
+    thisGrid.dom.popUpTwoCells.classList.replace(classNames.popUpNotVisible, classNames.popUpVisible);
+    
+    thisGrid.dom.closePopUpTwoCells.addEventListener('click',function(event){
+      event.preventDefault();
+
+      thisGrid.dom.containerWithOpacity.classList.replace(classNames.layerOpacityYes, classNames.layerOpacityNo);
+      thisGrid.dom.popUpTwoCells.classList.replace(classNames.popUpVisible, classNames.popUpNotVisible);  
+    });
+  }
+
+  alertMarkStartFinish(){
+    const thisGrid = this;
+
+    thisGrid.dom.containerWithOpacity.classList.replace(classNames.layerOpacityNo, classNames.layerOpacityYes);
+    thisGrid.dom.popUpMarkStartFinish.classList.replace(classNames.popUpNotVisible, classNames.popUpVisible);
+    
+    thisGrid.dom.closePopUpMarkStartFinish.addEventListener('click',function(event){
+      event.preventDefault();
+
+      thisGrid.dom.containerWithOpacity.classList.replace(classNames.layerOpacityYes, classNames.layerOpacityNo);
+      thisGrid.dom.popUpMarkStartFinish.classList.replace(classNames.popUpVisible, classNames.popUpNotVisible);  
+    });
+  }
+
   showSummary(){
     const thisGrid = this;
     
@@ -413,13 +478,13 @@ class Grid {
     shortestRouteSummaryDOM.innerHTML = thisGrid.shortestRouteSummary;
 
     thisGrid.dom.containerWithOpacity.classList.replace(classNames.layerOpacityNo, classNames.layerOpacityYes);
-    thisGrid.dom.popUp.classList.replace(classNames.popUpNotVisible, classNames.popUpVisible);
+    thisGrid.dom.popUpSummary.classList.replace(classNames.popUpNotVisible, classNames.popUpVisible);
     
-    thisGrid.dom.closePopUp.addEventListener('click',function(event){
+    thisGrid.dom.closePopUpSummary.addEventListener('click',function(event){
       event.preventDefault();
 
       thisGrid.dom.containerWithOpacity.classList.replace(classNames.layerOpacityYes, classNames.layerOpacityNo);
-      thisGrid.dom.popUp.classList.replace(classNames.popUpVisible, classNames.popUpNotVisible);  
+      thisGrid.dom.popUpSummary.classList.replace(classNames.popUpVisible, classNames.popUpNotVisible);  
     });
   }
 
@@ -444,6 +509,17 @@ class Grid {
     }
 
     return {returnX: parseInt(coordinateX), returnY: parseInt(coordinateY)};
+  }
+
+  clearCellsStyles(){
+    for (let y = gridParams.firstRow ; y <= gridParams.lastRow ; y++) {
+      for(let x = gridParams.firstColumn ; x <= gridParams.lastColumn ; x++) {
+        const cell = y + '-' + x;
+        const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cell + '"]');
+        cellDom.classList.remove(classNames.possibleMove, classNames.markedCell, classNames.startCell, classNames.endCell, classNames.shortestWay); 
+      }
+    }
+    return null;
   }
 }
 
