@@ -4,8 +4,8 @@ export const select = {
     aboveGridArea: '.above-grid-area',
     belowGridArea: '.below-grid-area',
     searchPathButton: '.button',
-    startCell: '.first-cell',
-    endCell: '.last-cell',
+    startCell: '.start-cell',
+    finishCell: '.finish-cell',
     pages: '#pages',
   },
   nav: {
@@ -30,8 +30,8 @@ export const classNames = {
   gridRow: 'grid-row',
   gridColumn: 'grid-column',
   markedCell: 'marked-cell',
-  startCell: 'first-cell',
-  endCell: 'last-cell',
+  startCell: 'start-cell',
+  finishCell: 'finish-cell',
   shortestWay: 'shortest-way',
   possibleMove: 'possible-move',
   layerOpacityNo: 'container-opacity-no',
@@ -60,7 +60,7 @@ export const gridParams = {
 
 export const textData = {
   titleMode1: 'DRAW ROUTES',
-  titleMode2: 'PICK START AND FINISH',
+  titleMode2: 'MARK START AND FINISH',
   titleMode3: 'THE BEST ROUTE IS...',
   buttonMode1: 'FINISH DRAWING',
   buttonMode2: 'SEARCH PATH',

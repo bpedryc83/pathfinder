@@ -43,7 +43,7 @@ export const app = {
     }
 
     for (let page of thisApp.pages){
-      page.classList.toggle(classNames.pages.active, page.id == pageId);
+      page.classList.toggle(classNames.pages.active, page.id === pageId);
     }
   },
 

@@ -80,12 +80,12 @@
   cursor: pointer;
 }
 
-.first-cell {
+.start-cell {
   position: relative;
-  background-color: $color-first-cell;
+  background-color: $color-start-cell;
 }
 
-.first-cell::before {
+.start-cell::before {
   content: "S";
   position: absolute;
   top: 50%;
@@ -96,12 +96,12 @@
   color: white;
 }
 
-.last-cell {
+.finish-cell {
   position: relative;
-  background-color: $color-last-cell;
+  background-color: $color-finish-cell;
 }
 
-.last-cell::before {
+.finish-cell::before {
   content: "F";
   position: absolute;
   top: 50%;
@@ -140,6 +140,12 @@
 
 .text-small-devices {
   display: none;
+}
+
+@media (max-width: 390px){
+  .title-above-grid {
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 350px){

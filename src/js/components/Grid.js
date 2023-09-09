@@ -5,7 +5,7 @@ class Grid {
     const thisGrid = this;
     thisGrid.finderMode = 1; //Modes: 1 - click cell to define it as marked/unmarked ; 2 - indicate start/finish cell; 3 - display the shortest way  
     thisGrid.startCell = 0;
-    thisGrid.endCell = 0;
+    thisGrid.finishCell = 0;
     
     thisGrid.possibleRoutesSummary = 0;
     thisGrid.fullRouteSummary = 0;
@@ -83,14 +83,14 @@ class Grid {
         }
       }
       else if (thisGrid.finderMode === 2) {
-        if (thisGrid.startCell != 0 && thisGrid.endCell != 0){
+        if (thisGrid.startCell != 0 && thisGrid.finishCell != 0){
           thisGrid.finderMode = 3;
           modeTitleSpan.innerHTML = textData.titleMode3;
           //thisGrid.dom.aboveGrid.innerHTML = textData.titleMode3;
           thisGrid.dom.spanModeID.innerHTML = textData.buttonMode3;
 
           const possibleWays = thisGrid.findPossibleWays(thisGrid.startCell, thisGrid.markedCells);
-          const shortestWay = thisGrid.findShortestWay(possibleWays, thisGrid.endCell);
+          const shortestWay = thisGrid.findShortestWay(possibleWays, thisGrid.finishCell);
 
           thisGrid.showSummary();
 
@@ -109,7 +109,7 @@ class Grid {
         thisGrid.possibleToMarkCells.length = 0;
 
         thisGrid.startCell = 0;
-        thisGrid.endCell = 0;
+        thisGrid.finishCell = 0;
         
         thisGrid.possibleRoutesSummary = 0;
         thisGrid.fullRouteSummary = 0;
@@ -138,9 +138,8 @@ class Grid {
       let clickedCellDom;
       let cellPossibleToMark;
 
-      if (clickedCell == null) {
+      if (clickedCell === null) {
         cellPossibleToMark = false;
-        console.log('null');
       }
       else {
         const clickedCellInteger = thisGrid.coordinatesStrToInt(clickedCell);
@@ -189,7 +188,7 @@ class Grid {
                     }
                   }
                 }
-                if (foundNeighboursAmount == amountMarkedNeighbours){
+                if (foundNeighboursAmount === amountMarkedNeighbours){
                   thisGrid.markedCells.splice(indexOfCell, 1);
                   clickedCellDom.classList.remove(classNames.markedCell);
                   thisGrid.renderPossibleMove();                  
@@ -207,10 +206,10 @@ class Grid {
               const markedCellRow = markedCellInt.returnX;
               const markedCellColumn = markedCellInt.returnY;
 
-              if (((markedCellRow == clickedCellRow - 1) && (markedCellColumn == clickedCellColumn)) ||
-              ((markedCellRow == clickedCellRow + 1) && (markedCellColumn == clickedCellColumn)) ||
-              ((markedCellColumn == clickedCellColumn - 1) && (markedCellRow == clickedCellRow)) ||
-              ((markedCellColumn == clickedCellColumn + 1) && (markedCellRow == clickedCellRow))) {
+              if (((markedCellRow === clickedCellRow - 1) && (markedCellColumn === clickedCellColumn)) ||
+              ((markedCellRow === clickedCellRow + 1) && (markedCellColumn === clickedCellColumn)) ||
+              ((markedCellColumn === clickedCellColumn - 1) && (markedCellRow === clickedCellRow)) ||
+              ((markedCellColumn === clickedCellColumn + 1) && (markedCellRow === clickedCellRow))) {
                 cellPossibleToMark = true;
               }
             }
@@ -225,26 +224,26 @@ class Grid {
         
         // MODE 2
         
-        else if (thisGrid.finderMode == 2){
+        else if (thisGrid.finderMode === 2){
 
-          if (thisGrid.startCell == 0){
+          if (thisGrid.startCell === 0){
             thisGrid.startCell = clickedCell;
             clickedCellDom.classList.replace(classNames.markedCell, classNames.startCell);
 
           }
-          else if (thisGrid.startCell != 0 && thisGrid.startCell != clickedCell && thisGrid.endCell == 0){
-            thisGrid.endCell = clickedCell;
-            clickedCellDom.classList.replace(classNames.markedCell, classNames.endCell);          
+          else if (thisGrid.startCell != 0 && thisGrid.startCell != clickedCell && thisGrid.finishCell === 0){
+            thisGrid.finishCell = clickedCell;
+            clickedCellDom.classList.replace(classNames.markedCell, classNames.finishCell);          
           }
-          else if (thisGrid.startCell != 0 && thisGrid.endCell != 0 && thisGrid.startCell != clickedCell && thisGrid.endCell != clickedCell){
+          else if (thisGrid.startCell != 0 && thisGrid.finishCell != 0 && thisGrid.startCell != clickedCell && thisGrid.finishCell != clickedCell){
             const startCellDom = document.querySelector(select.containerOf.startCell);
             startCellDom.classList.replace(classNames.startCell, classNames.markedCell);
 
             thisGrid.startCell = clickedCell;
 
-            const endCellDom = document.querySelector(select.containerOf.endCell);
-            endCellDom.classList.replace(classNames.endCell, classNames.markedCell);
-            thisGrid.endCell = 0;
+            const finishCellDom = document.querySelector(select.containerOf.finishCell);
+            finishCellDom.classList.replace(classNames.finishCell, classNames.markedCell);
+            thisGrid.finishCell = 0;
             clickedCellDom.classList.replace(classNames.markedCell, classNames.startCell);
           }
         }
@@ -294,7 +293,7 @@ class Grid {
 
     for (let way of ways){
       for (let cellInWay of way){
-        if (cellInWay == end){
+        if (cellInWay === end){
           const startEndWay = [...way];
 
           const lengthForSplice = startEndWay.length - startEndWay.indexOf(cellInWay) - 1;
@@ -304,7 +303,7 @@ class Grid {
           let startEndWayJoin = startEndWay.join();
 
           for (let connectingWay of connectingWays){
-            if (startEndWayJoin == connectingWay.join()){
+            if (startEndWayJoin === connectingWay.join()){
               pushPossible = false;
             }
           }
@@ -316,10 +315,10 @@ class Grid {
     }
 
     for (let connectingWay of connectingWays){
-      if (shortestWay.length == 0 || (shortestWay.length > 0 && connectingWay.length < shortestWay.length)){
+      if (shortestWay.length === 0 || (shortestWay.length > 0 && connectingWay.length < shortestWay.length)){
         shortestWay = connectingWay;
       }
-      if (longestWay.length == 0 || (longestWay.length > 0 && connectingWay.length > longestWay.length)){
+      if (longestWay.length === 0 || (longestWay.length > 0 && connectingWay.length > longestWay.length)){
         longestWay = connectingWay;
       }
       thisGrid.fullRouteSummary += connectingWay.length;
@@ -358,7 +357,7 @@ class Grid {
         cellExistsInCurrentWay = false;
 
         for (let cellFromCurrentWay of possibleWays[currentWayNumber]){
-          if (cellFromSet == cellFromCurrentWay){
+          if (cellFromSet === cellFromCurrentWay){
             cellExistsInCurrentWay = true;
             break;
           }
@@ -376,8 +375,8 @@ class Grid {
           }
         }
       }
-      if (nextCellsSetToCheck.length == 0){
-        if (currentWayNumber == possibleWays.length - 1){
+      if (nextCellsSetToCheck.length === 0){
+        if (currentWayNumber === possibleWays.length - 1){
           break;
         }
         else {
@@ -397,7 +396,7 @@ class Grid {
     
     const newCellsSet = thisGrid.checkFourCellsAround(presentCell, arrayMarkedCells);
     for (let possibleCell of newCellsSet){
-      if (possibleCell == previousCell){
+      if (possibleCell === previousCell){
         const alreadyRecordedCell = newCellsSet.indexOf(possibleCell);
         newCellsSet.splice(alreadyRecordedCell, 1);
       }
@@ -496,7 +495,7 @@ class Grid {
 
     for (let i = 0 ; i < coordinates.length ; i++){
       if (checkSeparator === false){
-        if (coordinates.charAt(i) == '-'){
+        if (coordinates.charAt(i) === '-'){
           checkSeparator = true;
         }
         else {
@@ -516,7 +515,7 @@ class Grid {
       for(let x = gridParams.firstColumn ; x <= gridParams.lastColumn ; x++) {
         const cell = y + '-' + x;
         const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cell + '"]');
-        cellDom.classList.remove(classNames.possibleMove, classNames.markedCell, classNames.startCell, classNames.endCell, classNames.shortestWay); 
+        cellDom.classList.remove(classNames.possibleMove, classNames.markedCell, classNames.startCell, classNames.finishCell, classNames.shortestWay); 
       }
     }
     return null;
