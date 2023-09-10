@@ -31,13 +31,13 @@ Next, the user specifies the start and finish points on the drawn paths to find 
 ## Screenshots
 
 ### Draw routes
-![Draw routes](src/images/draw_routes.jpg)  
+![Draw routes](src/images/draw_routes.jpg){:width="350px" height="399px"} 
   &nbsp;
 ### Mark start and finish  
-![Mark start and finish](src/images/mark_start_and_finish.jpg)  
+![Mark start and finish](src/images/mark_start_and_finish.jpg){:width="340px" height="407px"}  
   &nbsp;
 ### Find the best route
-![Find the best route](src/images/the_best_route.jpg)  
+![Find the best route](src/images/the_best_route.jpg){:width="325px" height="375px"}
   &nbsp;
 ### Receive the possible routes statistics  
 ![Receive routes statistics](src/images/summary.jpg)  
