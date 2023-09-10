@@ -101,16 +101,20 @@ export function pathFinder(thisGrid) {
       
       else if (thisGrid.finderMode === 2){
 
-        if (thisGrid.startCell === 0){
+        if (thisGrid.startCell === 0 && clickedCellDom.classList.contains(classNames.markedCell)){
           thisGrid.startCell = clickedCell;
           clickedCellDom.classList.replace(classNames.markedCell, classNames.startCell);
 
         }
-        else if (thisGrid.startCell != 0 && thisGrid.startCell != clickedCell && thisGrid.finishCell === 0){
+        else if (thisGrid.startCell != 0 && thisGrid.startCell != clickedCell && thisGrid.finishCell === 0 && clickedCellDom.classList.contains(classNames.markedCell)){
           thisGrid.finishCell = clickedCell;
           clickedCellDom.classList.replace(classNames.markedCell, classNames.finishCell);          
         }
-        else if (thisGrid.startCell != 0 && thisGrid.finishCell != 0 && thisGrid.startCell != clickedCell && thisGrid.finishCell != clickedCell){
+        else if (thisGrid.startCell != 0 &&
+          thisGrid.finishCell != 0 &&
+          thisGrid.startCell != clickedCell &&
+          thisGrid.finishCell != clickedCell &&
+          clickedCellDom.classList.contains(classNames.markedCell)){
           const startCellDom = document.querySelector(select.containerOf.startCell);
           startCellDom.classList.replace(classNames.startCell, classNames.markedCell);
 
