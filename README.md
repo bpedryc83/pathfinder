@@ -2,7 +2,7 @@
 
 The website app allows us to find shortest way between two indicated points, going only through the paths marked earlier by the user. It is a single-page application (SPA). 
 
-## [Demo](https://pathfinder.bpedryc83.repl.co/#/finder)
+## [Demo (click)](https://pathfinder.bpedryc83.repl.co/#/about)
 
 ## Technologies
 
@@ -30,14 +30,14 @@ Next, the user specifies the start and finish points on the drawn paths to find 
 
 ## Screenshots
 
-### Draw routes
-  <img src="src/images/draw_routes.jpg" width="350" />
+## Draw routes
+  <img src="src/images/draw_routes.jpg" width="320" />
   
-### Mark start and finish  
-  <img src="src/images/mark_start_and_finish.jpg" width="340" />
+## Mark start and finish  
+  <img src="src/images/mark_start_and_finish.jpg" width="306" />
  
-### Find the best route
-  <img src="src/images/the_best_route.jpg" width="325" />
+## Find the best route
+  <img src="src/images/the_best_route.jpg" width="294" />
 
-### Receive the possible routes statistics  
+## Receive the possible routes statistics  
   <img src="src/images/summary.jpg" />
