@@ -472,7 +472,7 @@ body {
   justify-content: center;
   font-weight: 400;
   margin-top: 14px;
-  cursor: default;
+  cursor: pointer;
 }
 
 .text-small-devices {
