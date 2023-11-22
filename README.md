@@ -2,7 +2,7 @@
 
 The website app allows us to find shortest way between two indicated points, going only through the paths marked earlier by the user.
 
-## [Demo (click)](https://pathfinder.bpedryc83.repl.co/#/about)
+## [Demo (click)](https://pathfinder-bpedryc83.replit.app/)
 
 ## Technologies
 
