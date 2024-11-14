@@ -50,11 +50,21 @@ body {
       font-size: 14px;
       font-weight: $font-semibold;
       letter-spacing: 2px;
+      transition: transform 0.2s ease;
+      display: inline-block;
+
+      &:hover {
+        transform: scale(1.14);
+      }
     }
 
     a.currentPageLink {
       font-weight: $font-black;
       text-decoration: underline;
+
+      &:hover {
+        transform: scale(1);
+      }
     }
   }
 }
