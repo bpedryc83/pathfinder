@@ -13,29 +13,30 @@
     <div class="container">
       <div id="container-with-opacity" class="container-opacity-no">
       </div>
-      <div id="pop-up-summary" class="pop-up-not-visible">
-        <div id="close-pop-up-summary" class="closeX">X</div>
+      <div id="pop-up-summary" class="pop-up-not-visible stats">
         <div class="pop-up-title">SUMMARY</div>
-        <div class="pop-up-text">
+        <div class="pop-up-stats">
           <span class="bold">POSSIBLE: </span><span class="red" id="possible-routes"></span><span> ROUTES</span><br>
           <span class="bold">LENGTH ALL ROUTES: </span><span class="red" id="full-route"></span><span> FIELDS</span><br>
           <span class="bold">THE LONGEST ROUTE: </span><span class="red" id="longest-route"></span><span> FIELDS</span><br>
           <span class="bold">THE SHORTEST ROUTE: </span><span class="green" id="shortest-route"></span><span> FIELDS</span><br>
         </div>
+        <div id="close-pop-up-summary" class="pop-up-close">OK</div>
       </div>
-      <div id="pop-up-two-cells" class="pop-up-not-visible">
-        <div id="close-pop-up-two-cells" class="closeX">X</div>
-        <div class="pop-up-title">CAUTION</div>
+      <div id="pop-up-two-cells" class="pop-up-not-visible notice">        
+        <div class="pop-up-title">NOTICE</div>
         <div class="pop-up-alert">MARK AT LEAST TWO CELLS</div>
+        <div id="close-pop-up-two-cells" class="pop-up-close">OK</div>
       </div>
-      <div id="pop-up-mark-start-finish" class="pop-up-not-visible">
-        <div id="close-pop-up-mark-start-finish" class="closeX">X</div>
-        <div class="pop-up-title">CAUTION</div>
-        <div class="pop-up-alert">SPECIFY START AND FINISH CELL</div>
+      <div id="pop-up-mark-start-finish" class="pop-up-not-visible notice">
+        <div class="pop-up-title">NOTICE</div>
+        <div class="pop-up-alert">MARK START AND FINISH CELL</div>
+        <div id="close-pop-up-mark-start-finish" class="pop-up-close">OK</div>
       </div>
       <div class="upper-div">
         <div class="menu">
           <div><a href="#about" class="currentPageLink">ABOUT</a></div>
+          <div><a href="#demo">DEMO</a></div>
           <div><a href="#finder">FINDER</a></div>
         </div>
         <div class="header">
@@ -77,7 +78,7 @@
           </div>
           <div class="info-area" data-aos="fade-up" data-aos-duration="2000" data-aos-offset="100">
             <div class="info-area-text">
-              This app was created using:<BR>
+              This app was created using:<br>
               Vanilla JavaScript, HTML, SCSS
             </div>
           </div>
@@ -95,7 +96,7 @@
             </div>
           </div>
           <div class="text-small-devices">
-            This app is browser only<br>
+            This app is computer browser only<br>
             (minimum width screen resolution: 350px).
           </div>
         </div>
