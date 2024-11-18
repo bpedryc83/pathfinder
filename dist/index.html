@@ -84,13 +84,39 @@
           </div>
         </div>
         <div class="middle-div" id="finder">
-          <div class="dynamic-content">
+          <div class="finder-settings" id="finder-settings">
+            <div class="settings-title">Please choose expected grid properties:</div>
+            <div class="grid-size-inputs">
+              <div class="grid-size-row">
+                <label for="grid-width">Grid width:</label>
+                <input type="number" id="grid-width" name="grid-width" min="5" max="20" placeholder="Width">
+                <span class="range-allowed">From 5 to 20</span>
+              </div>
+              <div class="grid-size-row">
+                <label for="grid-height">Grid height:</label>
+                <input type="number" id="grid-height" name="grid-height" min="5" max="30" placeholder="Height">
+                <span class="range-allowed">From 5 to 30</span>
+              </div>
+            </div>
+            <div class="creating-grid-options">
+              <label>
+                <input type="radio" name="creating-grid-option" value="option1" checked>
+                Option 1: Create grid manually
+              </label>
+              <label>
+                <input type="radio" name="creating-grid-option" value="option2">
+                Option 2: Create grid randomly
+              </label>
+            </div>
+            <button id="create-grid-button" class="create-grid-button">Create Grid</button>
+          </div>          
+          <div class="dynamic-content" id="finder-app">
             <div class="above-grid-area">
             </div>
             <div class="grid-area">
             </div>
             <div class="below-grid-area">
-              <div class="button">
+              <div class="mode-button hidden">
                 <span id="modeNumber"></span>
               </div>
             </div>

@@ -39,7 +39,7 @@ class Grid {
 
     thisGrid.dom.aboveGrid = document.querySelector(select.containerOf.aboveGridArea);
     thisGrid.dom.belowGrid = document.querySelector(select.containerOf.belowGridArea);
-    thisGrid.dom.searchPathButton = document.querySelector(select.containerOf.searchPathButton);
+    thisGrid.dom.modeButton = document.querySelector(select.containerOf.modeButton);
     thisGrid.dom.spanModeID = document.getElementById(attributeNames.modeNumber);
   }
 

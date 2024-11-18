@@ -2,6 +2,110 @@
   height: 110px;
 }
 
+.finder-settings {
+  display: block;
+  z-index: 10;
+  margin: auto auto;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, calc(-50% - 150px));
+  min-width: 350px;
+  padding: 15px 20px;
+  text-align: center;
+  background-color: white;
+  color: black;
+  box-shadow: 6px 6px 10px rgb(0, 0, 0);
+  border: 3px solid #743206;
+  border-radius: 10px;
+}
+
+.settings-title {
+  font-size: 16px;
+  padding-bottom: 12px;
+  color: #743206;
+  font-weight: bold;
+}
+
+.grid-size-inputs {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .grid-size-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+
+    label {
+      font-size: 14px;
+      font-weight: bold;
+      color: black;
+      
+    }
+
+    input {
+      padding: 5px;
+      border: 1px solid gray;
+      border-radius: 4px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .range-allowed {
+      opacity: 0.6;
+      padding-left: 6px;
+      font-style: italic;
+    }
+  }
+}
+
+.creating-grid-options {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+
+  label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: normal;
+    color: black;
+    cursor: pointer;
+
+    input[type="radio"] {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  }
+}
+
+.create-grid-button {
+  position: relative;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #743206;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    background-color: #96520a;
+    color: black;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
 .dynamic-content {
   display: block;
   margin-left: auto;
@@ -22,6 +126,8 @@
 }
 
 .above-grid-area {
+  position: relative;
+  z-index: 1;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -121,7 +227,7 @@
   cursor: pointer;
 }
 
-.button {
+.mode-button {
   margin-left: auto;
   margin-right: auto;
   padding: 8px 14px;
@@ -139,6 +245,10 @@
 }
 
 .text-small-devices {
+  display: none;
+}
+
+.hidden {
   display: none;
 }
 

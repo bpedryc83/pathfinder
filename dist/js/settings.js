@@ -1,9 +1,12 @@
 export const select = {
   containerOf: {
+    finderSettings: '.finder-settings',
+    finderApp: '.finder-app',
+    createGridButton: '.create-grid-button',
     gridArea: '.grid-area',
     aboveGridArea: '.above-grid-area',
     belowGridArea: '.below-grid-area',
-    searchPathButton: '.button',
+    modeButton: '.mode-button',
     startCell: '.start-cell',
     finishCell: '.finish-cell',
     pages: '#pages',
@@ -52,6 +55,8 @@ export const attributeNames = {
 };
 
 export const gridParams = {
+  defaultNoOfRows: 10,
+  defaultNoOfColumns: 10,
   firstRow: 1,
   lastRow: 10,
   firstColumn: 1,

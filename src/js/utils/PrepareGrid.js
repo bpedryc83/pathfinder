@@ -23,7 +23,7 @@ export function prepareGridDivs(thisGrid) {
 
   thisGrid.dom.spanModeID.innerHTML = textData.buttonMode1;
 
-  thisGrid.dom.searchPathButton.addEventListener('click', function(event){
+  thisGrid.dom.modeButton.addEventListener('click', function(event){
     event.preventDefault();
     if (thisGrid.finderMode === 1) {
       if (thisGrid.markedCells.length > 1) {

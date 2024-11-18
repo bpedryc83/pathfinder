@@ -1,4 +1,4 @@
-import {select, classNames} from './settings.js';
+import {select, classNames, gridParams} from './settings.js';
 import Grid from './components/Grid.js';
 
 export const app = {
@@ -47,14 +47,50 @@ export const app = {
     }
   },
 
-  initGrid: function(){
-    new Grid();
+  initFinder: function(){
+    const thisApp = this;
+    thisApp.settingsContainer = document.querySelector(select.containerOf.finderSettings);
+    thisApp.creatingButtonContainer = document.querySelector(select.containerOf.createGridButton);
+    thisApp.modeButtonContainer = document.querySelector(select.containerOf.modeButton);
+    thisApp.container = document.getElementById('finder');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const gridWidthInput = document.getElementById('grid-width');
+      const gridHeightInput = document.getElementById('grid-height');
+
+      gridWidthInput.value = gridParams.defaultNoOfColumns;
+      gridHeightInput.value = gridParams.defaultNoOfRows;
+    
+      const validationMinMax = (input) => {
+        const min = parseInt(input.min, 10);
+        const max = parseInt(input.max, 10);
+        let value = parseInt(input.value, 10);
+    
+        if (isNaN(value) || value < min) {
+          input.value = min;
+        } 
+        else if (value > max) {
+          input.value = max;
+        }
+      };
+    
+      gridWidthInput.addEventListener('input', () => validationMinMax(gridWidthInput));
+      gridHeightInput.addEventListener('input', () => validationMinMax(gridHeightInput));
+    });
+    
+    thisApp.creatingButtonContainer.addEventListener('click', function(event){
+      event.preventDefault();
+      thisApp.settingsContainer.classList.add('hidden');
+      thisApp.modeButtonContainer.classList.remove('hidden');
+      new Grid();
+    });
   },
+
   init: function(){
     const thisApp = this;
 
     thisApp.initPages();
-    thisApp.initGrid();
+    thisApp.initFinder();
   },
 };
 
