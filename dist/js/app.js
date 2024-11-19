@@ -47,6 +47,24 @@ export const app = {
     }
   },
 
+  saveGridSettingsInStorage: function() {
+    const thisApp = this;
+
+    thisApp.creatingGridOptions = document.querySelectorAll('input[name="creating-grid-option"]');
+    thisApp.checkedCreatingGridOption;
+
+    for (let option of thisApp.creatingGridOptions) {
+      if (option.checked)
+        thisApp.checkedCreatingGridOption = option.value;
+    }
+
+    sessionStorage.setItem('settingsGridData', JSON.stringify({
+      width: document.getElementById('grid-width').value,
+      height: document.getElementById('grid-height').value,
+      creatingMode: thisApp.checkedCreatingGridOption 
+    }));
+  },
+
   initFinder: function(){
     const thisApp = this;
     thisApp.settingsContainer = document.querySelector(select.containerOf.finderSettings);
@@ -80,6 +98,7 @@ export const app = {
     
     thisApp.creatingButtonContainer.addEventListener('click', function(event){
       event.preventDefault();
+      thisApp.saveGridSettingsInStorage();
       thisApp.settingsContainer.classList.add('hidden');
       thisApp.modeButtonContainer.classList.remove('hidden');
       new Grid();

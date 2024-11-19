@@ -45,6 +45,10 @@ export function findNextCellsToCheck(presentCell, previousCell, arrayMarkedCells
 
 
 export function renderPossibleMove(thisGrid){
+  thisGrid.gridSettings = JSON.parse(sessionStorage.getItem('settingsGridData'));
+  thisGrid.numberOfColumns = Number(thisGrid.gridSettings.width);
+  thisGrid.numberOfRows = Number(thisGrid.gridSettings.height);
+  
   for (let cell of thisGrid.possibleToMarkCells){
     const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cell + '"]');
     cellDom.classList.remove(classNames.possibleMove); 
@@ -57,11 +61,11 @@ export function renderPossibleMove(thisGrid){
 
     const cellsAroundMarkedCell = [];
 
-    if (centralCellY > gridParams.firstRow && centralCellY < gridParams.lastRow){
+    if (centralCellY > gridParams.firstRow && centralCellY < thisGrid.numberOfRows){
       cellsAroundMarkedCell.push(String(centralCellX) + '-' + String(centralCellY - 1));
       cellsAroundMarkedCell.push(String(centralCellX) + '-' + String(centralCellY + 1));
     }
-    if (centralCellX > gridParams.firstColumn && centralCellX < gridParams.lastColumn){
+    if (centralCellX > gridParams.firstColumn && centralCellX < thisGrid.numberOfColumns){
       cellsAroundMarkedCell.push(String(centralCellX + 1) + '-' + String(centralCellY));
       cellsAroundMarkedCell.push(String(centralCellX - 1) + '-' + String(centralCellY));
     }
@@ -75,10 +79,13 @@ export function renderPossibleMove(thisGrid){
   }
 }
 
-
 export function clearCellsStyles(){
-  for (let y = gridParams.firstRow ; y <= gridParams.lastRow ; y++) {
-    for(let x = gridParams.firstColumn ; x <= gridParams.lastColumn ; x++) {
+  this.gridSettings = JSON.parse(sessionStorage.getItem('settingsGridData'));
+  this.numberOfColumns = Number(this.gridSettings.width);
+  this.numberOfRows = Number(this.gridSettings.height);
+  
+  for (let y = gridParams.firstRow ; y <= this.numberOfRows ; y++) {
+    for(let x = gridParams.firstColumn ; x <= this.numberOfColumns ; x++) {
       const cell = y + '-' + x;
       const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cell + '"]');
       cellDom.classList.remove(classNames.possibleMove, classNames.markedCell, classNames.startCell, classNames.finishCell, classNames.shortestWay); 

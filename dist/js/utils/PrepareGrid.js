@@ -8,11 +8,16 @@ export function prepareGridDivs(thisGrid) {
   modeTitleSpan.innerHTML = textData.titleMode1;
   thisGrid.dom.aboveGrid.append(modeTitleSpan);
 
-  for (let y = gridParams.firstRow ; y <= gridParams.lastRow ; y++) {
+  thisGrid.gridSettings = JSON.parse(sessionStorage.getItem('settingsGridData'));
+  thisGrid.numberOfColumns = Number(thisGrid.gridSettings.width);
+  thisGrid.numberOfRows = Number(thisGrid.gridSettings.height);
+  thisGrid.creatingMode = thisGrid.gridSettings.creatingMode;
+  
+  for (let y = gridParams.firstRow ; y <= thisGrid.numberOfRows ; y++) {
     const div = document.createElement('div');
     div.classList.add(classNames.gridRow);
     
-    for(let x = gridParams.firstColumn ; x <= gridParams.lastColumn ; x++) {
+    for(let x = gridParams.firstColumn ; x <= thisGrid.numberOfColumns ; x++) {
       const yDiv = document.createElement('div');
       div.append(yDiv);
       yDiv.classList.add(classNames.gridColumn);

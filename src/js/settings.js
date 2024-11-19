@@ -58,9 +58,7 @@ export const gridParams = {
   defaultNoOfRows: 10,
   defaultNoOfColumns: 10,
   firstRow: 1,
-  lastRow: 10,
   firstColumn: 1,
-  lastColumn: 10,
 };
 
 export const textData = {
