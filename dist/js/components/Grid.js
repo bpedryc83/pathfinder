@@ -19,6 +19,11 @@ class Grid {
     thisGrid.markedCells = [];
     thisGrid.possibleToMarkCells = [];
     thisGrid.correctWays = [[]];
+
+    thisGrid.gridSettings = JSON.parse(sessionStorage.getItem('settingsGridData'));
+    thisGrid.numberOfColumns = Number(thisGrid.gridSettings.width);
+    thisGrid.numberOfRows = Number(thisGrid.gridSettings.height);
+
     thisGrid.getElements();
     thisGrid.prepareGridDivs();
   }

@@ -7,17 +7,12 @@ export function prepareGridDivs(thisGrid) {
   modeTitleSpan.classList.add('title-above-grid');
   modeTitleSpan.innerHTML = textData.titleMode1;
   thisGrid.dom.aboveGrid.append(modeTitleSpan);
-
-  const gridSettings = JSON.parse(sessionStorage.getItem('settingsGridData'));
-  const numberOfColumns = Number(gridSettings.width);
-  const numberOfRows = Number(gridSettings.height);
-  //const creatingMode = gridSettings.creatingMode;
   
-  for (let y = gridParams.firstRow ; y <= numberOfRows ; y++) {
+  for (let y = gridParams.firstRow ; y <= thisGrid.numberOfRows ; y++) {
     const div = document.createElement('div');
     div.classList.add(classNames.gridRow);
     
-    for(let x = gridParams.firstColumn ; x <= numberOfColumns ; x++) {
+    for(let x = gridParams.firstColumn ; x <= thisGrid.numberOfColumns ; x++) {
       const yDiv = document.createElement('div');
       div.append(yDiv);
       yDiv.classList.add(classNames.gridColumn);

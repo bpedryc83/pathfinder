@@ -45,10 +45,6 @@ export function findNextCellsToCheck(presentCell, previousCell, arrayMarkedCells
 
 
 export function renderPossibleMove(thisGrid){
-  thisGrid.gridSettings = JSON.parse(sessionStorage.getItem('settingsGridData'));
-  thisGrid.numberOfColumns = Number(thisGrid.gridSettings.width);
-  thisGrid.numberOfRows = Number(thisGrid.gridSettings.height);
-  
   console.log('possible: ', thisGrid.possibleToMarkCells);
 
   for (let cell of thisGrid.possibleToMarkCells){
@@ -95,9 +91,9 @@ export function renderPossibleMove(thisGrid){
 }
 
 export function clearCellsStyles(){
-  this.gridSettings = JSON.parse(sessionStorage.getItem('settingsGridData'));
-  this.numberOfColumns = Number(this.gridSettings.width);
-  this.numberOfRows = Number(this.gridSettings.height);
+  // this.gridSettings = JSON.parse(sessionStorage.getItem('settingsGridData'));
+  // this.numberOfColumns = Number(this.gridSettings.width);
+  // this.numberOfRows = Number(this.gridSettings.height);
   
   for (let y = gridParams.firstRow ; y <= this.numberOfRows ; y++) {
     for(let x = gridParams.firstColumn ; x <= this.numberOfColumns ; x++) {
