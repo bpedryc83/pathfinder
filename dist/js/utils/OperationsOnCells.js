@@ -48,8 +48,9 @@ export function renderPossibleMove(thisGrid){
   thisGrid.gridSettings = JSON.parse(sessionStorage.getItem('settingsGridData'));
   thisGrid.numberOfColumns = Number(thisGrid.gridSettings.width);
   thisGrid.numberOfRows = Number(thisGrid.gridSettings.height);
-  console.log(thisGrid.numberOfColumns);
   
+  console.log('possible: ', thisGrid.possibleToMarkCells);
+
   for (let cell of thisGrid.possibleToMarkCells){
     const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cell + '"]');
     cellDom.classList.remove(classNames.possibleMove); 
@@ -66,8 +67,21 @@ export function renderPossibleMove(thisGrid){
       cellsAroundMarkedCell.push(String(centralCellX) + '-' + String(centralCellY - 1));
       cellsAroundMarkedCell.push(String(centralCellX) + '-' + String(centralCellY + 1));
     }
+    else if (centralCellY === gridParams.firstRow) {
+      cellsAroundMarkedCell.push(String(centralCellX) + '-' + String(centralCellY + 1));
+    }
+    else if (centralCellY === thisGrid.numberOfRows) {
+      cellsAroundMarkedCell.push(String(centralCellX) + '-' + String(centralCellY - 1));
+    }
+    
     if (centralCellX > gridParams.firstColumn && centralCellX < thisGrid.numberOfColumns){
       cellsAroundMarkedCell.push(String(centralCellX + 1) + '-' + String(centralCellY));
+      cellsAroundMarkedCell.push(String(centralCellX - 1) + '-' + String(centralCellY));
+    }
+    else if (centralCellX === gridParams.firstColumn) {
+      cellsAroundMarkedCell.push(String(centralCellX + 1) + '-' + String(centralCellY));
+    }
+    else if (centralCellX === thisGrid.numberOfColumns) {
       cellsAroundMarkedCell.push(String(centralCellX - 1) + '-' + String(centralCellY));
     }
     for (let cellAround of cellsAroundMarkedCell){

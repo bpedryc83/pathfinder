@@ -28,7 +28,7 @@ export function prepareGridDivs(thisGrid) {
 
   const dynamicContentContainer = document.querySelector('.dynamic-content');
   const contentHeight = dynamicContentContainer.offsetHeight;
-  let offsetY = contentHeight <= 520 ? '-50%' : `-260px`;
+  let offsetY = contentHeight <= 520 ? '-50%' : `-270px`;
 
   dynamicContentContainer.style.transform = `translate(-50%, ${offsetY})`;
 
