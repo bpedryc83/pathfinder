@@ -48,6 +48,7 @@ export function renderPossibleMove(thisGrid){
   thisGrid.gridSettings = JSON.parse(sessionStorage.getItem('settingsGridData'));
   thisGrid.numberOfColumns = Number(thisGrid.gridSettings.width);
   thisGrid.numberOfRows = Number(thisGrid.gridSettings.height);
+  console.log(thisGrid.numberOfColumns);
   
   for (let cell of thisGrid.possibleToMarkCells){
     const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cell + '"]');

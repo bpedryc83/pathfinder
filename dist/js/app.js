@@ -92,8 +92,8 @@ export const app = {
         }
       };
     
-      gridWidthInput.addEventListener('input', () => validationMinMax(gridWidthInput));
-      gridHeightInput.addEventListener('input', () => validationMinMax(gridHeightInput));
+      gridWidthInput.addEventListener('blur', () => validationMinMax(gridWidthInput));
+      gridHeightInput.addEventListener('blur', () => validationMinMax(gridHeightInput));
     });
     
     thisApp.creatingButtonContainer.addEventListener('click', function(event){
