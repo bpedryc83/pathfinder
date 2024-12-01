@@ -28,7 +28,7 @@ export function prepareGridDivs(thisGrid) {
   dynamicContentContainer.style.transform = `translate(-50%, ${offsetY})`;
 
   thisGrid.dom.spanModeID.innerHTML = textData.buttonMode1;
-
+  
   thisGrid.dom.modeButton.addEventListener('click', function(event){
     event.preventDefault();
     if (thisGrid.finderMode === 1) {
@@ -90,4 +90,34 @@ export function prepareGridDivs(thisGrid) {
   });
 
   thisGrid.pathFinder();
+}
+
+export function generateRandomRoutes(thisGrid){
+  const firstRandomCellX = Math.floor(Math.random() * thisGrid.numberOfColumns + 1);
+  const firstRandomCellY = Math.floor(Math.random() * thisGrid.numberOfRows + 1);
+  const firstRandomCell = firstRandomCellX.toString() + '-' + firstRandomCellY.toString();
+  thisGrid.markedCells.push(firstRandomCell);
+  const randomCellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + firstRandomCell + '"]');
+  randomCellDom.classList.add(classNames.markedCell);
+  thisGrid.renderPossibleMove();
+
+  for (let i = 0 ; i < 20 ; i++) {
+    const possibleNextCells = thisGrid.possibleToMarkCells;
+    const lengthPossibleNextCells = possibleNextCells.length;
+    const randomCell = possibleNextCells[Math.floor(Math.random() * lengthPossibleNextCells)];
+    let countNoMatching = 0;
+    for (let cell of thisGrid.markedCells) {
+      if (randomCell != cell) {
+        countNoMatching++;
+      }
+    }
+    if (countNoMatching === thisGrid.markedCells.length) {
+      thisGrid.markedCells.push(randomCell);
+      console.log(randomCell);
+      const randomCellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + randomCell + '"]');
+      randomCellDom.classList.remove(classNames.possibleMove); 
+      randomCellDom.classList.add(classNames.markedCell);
+      thisGrid.renderPossibleMove();
+    }
+  }
 }

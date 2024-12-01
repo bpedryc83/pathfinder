@@ -1,4 +1,4 @@
-import { prepareGridDivs } from '../utils/PrepareGrid.js';
+import { prepareGridDivs, generateRandomRoutes } from '../utils/PrepareGrid.js';
 import { pathFinder } from '../utils/PathFinder.js';
 import { renderPossibleMove } from '../utils/OperationsOnCells.js';
 import { alertTwoCells, alertMarkStartFinish, showSummary } from '../utils/Popups.js';
@@ -23,6 +23,7 @@ class Grid {
     thisGrid.gridSettings = JSON.parse(sessionStorage.getItem('settingsGridData'));
     thisGrid.numberOfColumns = Number(thisGrid.gridSettings.width);
     thisGrid.numberOfRows = Number(thisGrid.gridSettings.height);
+    thisGrid.creatingGridMode = thisGrid.gridSettings.creatingMode;
 
     thisGrid.getElements();
     thisGrid.prepareGridDivs();
@@ -50,6 +51,10 @@ class Grid {
 
   prepareGridDivs() {
     prepareGridDivs(this);
+  }
+
+  generateRandomRoutes() {
+    generateRandomRoutes(this);
   }
 
   pathFinder() {

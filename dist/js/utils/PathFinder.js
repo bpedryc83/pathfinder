@@ -3,9 +3,13 @@ import { checkFourCellsAround } from './OperationsOnCells.js';
 import { findPossibleWays } from './FindingWays.js';
 import { attributeNames, classNames, select } from '../settings.js';
 
-
 export function pathFinder(thisGrid) {
   
+
+  if (thisGrid.creatingGridMode === 'optionRandom'){
+    thisGrid.generateRandomRoutes();
+  }
+
   thisGrid.dom.grid.addEventListener('click', function(event){
     event.preventDefault();
     const clickedCell = event.target.getAttribute(attributeNames.cellCoordinate);
@@ -23,7 +27,6 @@ export function pathFinder(thisGrid) {
       const clickedCellColumn = clickedCellInteger.returnY;
       
       clickedCellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + clickedCell + '"]');
-
       
       // MODE 1
       

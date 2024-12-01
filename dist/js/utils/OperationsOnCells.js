@@ -45,12 +45,16 @@ export function findNextCellsToCheck(presentCell, previousCell, arrayMarkedCells
 
 
 export function renderPossibleMove(thisGrid){
+
   console.log('possible: ', thisGrid.possibleToMarkCells);
+
 
   for (let cell of thisGrid.possibleToMarkCells){
     const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cell + '"]');
     cellDom.classList.remove(classNames.possibleMove); 
   }
+
+  thisGrid.possibleToMarkCells.length = 0;
 
   for (let markedCell of thisGrid.markedCells){
     const cellCoordinates = coordinatesStrToInt(markedCell);
@@ -84,17 +88,16 @@ export function renderPossibleMove(thisGrid){
       if (!thisGrid.markedCells.includes(cellAround)){
         const cellDom = document.querySelector('[' + attributeNames.cellCoordinate + '="' + cellAround + '"]');
         cellDom.classList.add(classNames.possibleMove);
-        thisGrid.possibleToMarkCells.push(cellAround);
+        if (!thisGrid.possibleToMarkCells.includes(cellAround)) {
+          thisGrid.possibleToMarkCells.push(cellAround);
+        }
       }
     }
   }
 }
 
 export function clearCellsStyles(){
-  // this.gridSettings = JSON.parse(sessionStorage.getItem('settingsGridData'));
-  // this.numberOfColumns = Number(this.gridSettings.width);
-  // this.numberOfRows = Number(this.gridSettings.height);
-  
+
   for (let y = gridParams.firstRow ; y <= this.numberOfRows ; y++) {
     for(let x = gridParams.firstColumn ; x <= this.numberOfColumns ; x++) {
       const cell = y + '-' + x;
